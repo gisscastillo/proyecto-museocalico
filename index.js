@@ -1,8 +1,6 @@
-
-const reservasRoutes = require('./routes/reservas');
+require('dotenv').config(); 
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db');
 const app = express();
 
 // Middlewares 
@@ -12,10 +10,10 @@ app.use(express.static('public'));
 
 app.get('/health', (req, res) => res.send('Servidor del museo funcionando'));
 
-// Rutas
+// Rutas 
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/reservas', reservasRoutes);require('dotenv').config();
+app.use('/api/reservas', require('./routes/reservas'));
 
 // Manejo de errores 
 app.use((err, req, res, next) => {
@@ -29,4 +27,3 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
-
