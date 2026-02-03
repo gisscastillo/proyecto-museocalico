@@ -4,29 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin | Museo Cálico</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    
     <style>
         :root {
             --cafe-moka: #3d2b1f; 
             --oro: #b89655;
             --beige-suave: #e5ddd3;
             --crema: #fdfaf5;
+            --asistio: #2d4f35;
+            --no-asistio: #7a2a2a;
+            --pendiente: #5d4037;
         }
 
-        body {
-            background-color: var(--beige-suave);
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
-            padding-top: 100px;
+        body { 
+            background-color: var(--beige-suave); 
+            font-family: 'Quicksand', sans-serif; 
+            margin: 0; 
             color: #2a1b0a;
+            padding-top: 100px;
         }
+
+        /* Navbar */
         .nav-admin {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             background: var(--cafe-moka);
             display: flex;
             justify-content: space-between;
@@ -36,54 +39,31 @@
             z-index: 1000;
             box-sizing: border-box;
         }
-
-        .nav-logo {
-            font-family: 'Cinzel';
-            color: var(--oro);
-            font-size: 1.4rem;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-        }
+        .nav-logo { font-family: 'Cinzel'; color: var(--oro); font-weight: bold; font-size: 1.4rem; }
+        .nav-buttons { display: flex; gap: 15px; }
 
         .btn-nav {
             padding: 10px 20px;
             border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
             border: 1.5px solid var(--oro);
             background: transparent;
             color: var(--oro);
             cursor: pointer;
-            font-weight: 700;
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
             transition: 0.3s;
         }
+        .btn-nav:hover { background: var(--oro); color: white; }
 
-        .btn-nav:hover {
-            background: var(--oro);
-            color: white;
-        }
-
-        .header-admin {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header-admin h1 {
-            font-family: 'Cinzel';
-            color: var(--cafe-moka);
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
+        /* Encabezado y Stats */
+        .header-admin { text-align: center; margin-bottom: 20px; }
+        .header-admin h1 { font-family: 'Cinzel'; color: var(--cafe-moka); margin: 0; }
+        
+        .stats-container { display: flex; justify-content: center; margin-bottom: 30px; }
         .plate-info {
             background: white;
             padding: 20px 40px;
@@ -92,182 +72,190 @@
             text-align: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+        .plate-info span { color: #888; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+        .plate-info h2 { margin: 5px 0 0; font-size: 2.5rem; color: var(--cafe-moka); }
 
-        .plate-info span {
-            color: #777;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .plate-info h2 {
-            font-size: 2.5rem;
-            margin: 5px 0 0;
-        }
-
-        .search-wrap {
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-
-        .search-wrap i {
-            position: absolute;
-            left: 15px;
-            top: 15px;
-            color: var(--oro);
-        }
-
+        /* Buscador */
+        .search-wrap { max-width: 600px; margin: 0 auto 40px; position: relative; }
+        .search-wrap i { position: absolute; left: 15px; top: 15px; color: var(--oro); }
         .search-wrap input {
             width: 100%;
             padding: 15px 15px 15px 45px;
             border-radius: 30px;
             border: 1px solid var(--oro);
+            font-family: inherit;
             font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             outline: none;
         }
 
-        .main-wrapper {
-            max-width: 1100px;
-            margin: 0 auto 50px;
-            padding: 0 20px;
-        }
-
-        .table-dark-bg {
-            background: var(--cafe-moka);
-            padding: 30px;
-            border-radius: 25px;
+        /* Tabla */
+        .main-wrapper { max-width: 1100px; margin: 0 auto 50px; padding: 0 20px; }
+        .table-dark-bg { 
+            background: var(--cafe-moka); 
+            padding: 30px; 
+            border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             overflow-x: auto;
         }
+        table { width: 100%; border-collapse: collapse; color: white; text-align: left; }
+        th { border-bottom: 1px solid #555; padding: 15px; color: var(--oro); font-family: 'Cinzel'; }
+        td { padding: 15px; border-bottom: 1px solid #444; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            color: white;
-        }
-
-        th {
-            color: var(--oro);
-            font-family: 'Cinzel';
-            padding: 15px;
-            border-bottom: 1px solid #555;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #444;
-        }
-
+        /* Botones Acción */
         .btn-del {
             background: #7a2a2a;
+            color: white;
             border: none;
             padding: 8px 12px;
-            color: white;
             border-radius: 5px;
             cursor: pointer;
+            transition: 0.3s;
         }
+        .btn-del:hover { background: #ff4d4d; }
 
-        .btn-del:hover {
-            background: #ff4d4d;
+        @media (max-width: 600px) {
+            .btn-nav span { display: none; }
         }
     </style>
 </head>
-
 <body>
+    <nav class="nav-admin">
+        <div class="nav-logo">ADMIN CÁLICO</div>
+        <div class="nav-buttons">
+            <a href="index.html" class="btn-nav"><i class="fa-solid fa-eye"></i> <span>Ver Museo</span></a>
+            <button onclick="logout()" class="btn-nav"><i class="fa-solid fa-right-from-bracket"></i> <span>Salir</span></button>
+        </div>
+    </nav>
 
-<nav class="nav-admin">
-    <div class="nav-logo">ADMIN CÁLICO</div>
-    <div class="nav-buttons">
-        <a href="index.html" class="btn-nav">
-            <i class="fa-solid fa-eye"></i><span>Ver Museo</span>
-        </a>
-        <button onclick="logout()" class="btn-nav">
-            <i class="fa-solid fa-right-from-bracket"></i><span>Salir</span>
-        </button>
+    <header class="header-admin">
+        <h1>Gestión de Visitantes</h1>
+    </header>
+
+    <div class="stats-container">
+        <div class="plate-info">
+            <span>Boletos Registrados</span>
+            <h2 id="totalCounter">0</h2>
+        </div>
     </div>
-</nav>
 
-<header class="header-admin">
-    <h1>Gestión de Visitantes</h1>
-</header>
-
-<div class="stats-container">
-    <div class="plate-info">
-        <span>Boletos Registrados</span>
-        <h2 id="totalCounter">0</h2>
+    <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Buscar visitante por nombre o correo...">
     </div>
-</div>
 
-<div class="search-wrap">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" id="searchInput" placeholder="Buscar visitante por nombre o correo...">
-</div>
+    <main class="main-wrapper">
+        <div class="table-dark-bg">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Visitante</th>
+                        <th>Correo</th>
+                        <th>Fecha / Hora</th>
+                        <th>Cant.</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="reservaLista">
+                    <tr><td colspan="5" style="text-align:center;">Cargando reservas...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
 
-<main class="main-wrapper">
-    <div class="table-dark-bg">
-        <table>
-            <thead>
-                <tr>
-                    <th>Visitante</th>
-                    <th>Correo</th>
-                    <th>Fecha / Hora</th>
-                    <th>Cant.</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody id="reservaLista"></tbody>
-        </table>
-    </div>
-</main>
+    <script>
+        const TOKEN = localStorage.getItem('token');
+        const ROLE = localStorage.getItem('role');
 
-<script>
-    const TOKEN = localStorage.getItem('token');
-    const API_URL = '/api/reservas';
-
-    if (!TOKEN || localStorage.getItem('role') !== 'admin') {
-        window.location.href = 'auth.html';
-    }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = 'auth.html';
-    }
-
-    async function cargar() {
-    try {
-        const res = await fetch('/api/reservas'); 
-        
-        if (!res.ok) {
-            console.error("Error en respuesta:", res.status);
-            return;
+        if (!TOKEN || ROLE !== 'admin') {
+            window.location.href = 'auth.html';
         }
 
-        const data = await res.json();
-        console.log("Datos recibidos:", data); 
-        renderizar(data);
-    } catch (err) {
-        console.error("Error al conectar con la API:", err);
-    }
-}
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'auth.html';
+        }
 
-    function renderizar(data) {
-        const lista = document.getElementById('reservaLista');
-        lista.innerHTML = '';
-        let total = 0;
+        async function cargar() {
+            try {
+                const res = await fetch('/api/reservas', {
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
+                });
 
-        data.forEach(item => {
-            total += parseInt(item.cantidad_personas);
+                if (!res.ok) throw new Error("Error al obtener datos");
 
-            const tr = document.createElement('tr');
-            tr.className = 'row-museum';
-            tr.innerHTML = `
-                <td><strong>${item.nombre_usuario}</strong></td>
-                <td>${item.email_usuario}</td>
-                <td>${new Date(item.fecha).toLocaleDateString()} | ${item.hora}</td>
-                <td>${item.cantidad_personas}</td>
-                <td>
-                    <button class="btn-del" onclick="borrar(${item.id})">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </td>
+                const data = await res.json();
+                renderizar(data);
+            } catch (err) {
+                console.error("Fallo al cargar:", err);
+                document.getElementById('reservaLista').innerHTML = 
+                    '<tr><td colspan="5" style="text-align:center; color:orange;">No se pudo conectar con el servidor.</td></tr>';
+            }
+        }
 
+        function renderizar(data) {
+            const lista = document.getElementById('reservaLista');
+            const contador = document.getElementById('totalCounter');
+            lista.innerHTML = '';
+            let totalBoletos = 0;
+
+            if (data.length === 0) {
+                lista.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay reservas aún.</td></tr>';
+                contador.innerText = "0";
+                return;
+            }
+
+            data.forEach(item => {
+                totalBoletos += parseInt(item.cantidad_personas || 0);
+                const tr = document.createElement('tr');
+                tr.className = 'row-museum';
+                
+                const fechaLegible = new Date(item.fecha).toLocaleDateString('es-MX', {
+                    year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
+                });
+
+                tr.innerHTML = `
+                    <td><strong>${item.nombre_usuario}</strong></td>
+                    <td>${item.email_usuario}</td>
+                    <td>${fechaLegible} | ${item.hora}</td>
+                    <td>${item.cantidad_personas}</td>
+                    <td>
+                        <button class="btn-del" onclick="borrar(${item.id})">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                lista.appendChild(tr);
+            });
+
+            contador.innerText = totalBoletos;
+        }
+
+        async function borrar(id) {
+            if (!confirm("¿Deseas eliminar esta reserva permanentemente?")) return;
+            try {
+                const res = await fetch(`/api/reservas/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
+                });
+                if (res.ok) {
+                    cargar(); 
+                } else {
+                    alert("No se pudo eliminar la reserva.");
+                }
+            } catch (err) {
+                console.error("Error al borrar:", err);
+            }
+        }
+
+        document.getElementById('searchInput').onkeyup = function() {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll('.row-museum').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
+            });
+        };
+
+        cargar();
+    </script>
+</body>
+</html>
