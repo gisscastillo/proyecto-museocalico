@@ -3,7 +3,7 @@ require('dotenv').config();
 // Librerías principales
 const express = require('express');
 const cors = require('cors');
-const db = require('./db');
+const pool = require('./db')
 const app = express();
 
 // Middlewares
@@ -29,4 +29,5 @@ app.use((err, req, res, next) => {
 
 // inicio del servidor
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
