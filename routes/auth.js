@@ -1,55 +1,55 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const pool = require('../db'); 
+const pool = require('../db');
 const bcrypt = require('bcryptjs');
 
 // Registro
 router.post('/register', async (req, res) => {
     const { nombre, email, password } = req.body;
-
     try {
+        // Encriptar contraseña
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const sql = 'INSERT INTO usuarios (nombre, email, password) VALUES ($1, $2, $3)';
-        
-        pool.query(sql, [nombre, email, hashedPassword], (err, result) => {
-            if (err) {
-                console.error("ERROR EN POSTGRES:", err.message); 
-                return res.status(500).json({ mensaje: "Error al registrar usuario" });
-            }
+        const query = 'INSERT INTO usuarios (nombre, email, password) VALUES ($1, $2, $3) RETURNING *';
+        const result = await pool.query(query, [nombre, email, hashedPassword]);
+
+        if (result.rows.length > 0) {
             res.status(201).json({ mensaje: "Usuario registrado con éxito" });
-        });
+        } else {
+            res.status(400).json({ mensaje: "No se pudo guardar el usuario" });
+        }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("ERROR REGISTRO:", error.message);
+        res.status(500).json({ mensaje: "Error al registrar: " + error.message });
     }
 });
 
-//  Login
-router.post('/login', (req, res) => {
+// Login
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    
-    pool.query('SELECT * FROM usuarios WHERE email = $1', [email], async (err, result) => {
-        if (err) {
-            console.error("ERROR EN LOGIN:", err.message);
-            return res.status(500).json({ error: "Error en el servidor" });
-        }
+
+    try {
+        // Buscar usuario 
+        const result = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email.trim()]);
         
         if (result.rows.length === 0) {
             return res.status(400).json({ mensaje: "Usuario no encontrado" });
         }
+
         const usuario = result.rows[0];
-        const validPass = await bcrypt.compare(password, usuario.password);
         
+        // Comparar contraseña
+        const validPass = await bcrypt.compare(password, usuario.password);
         if (!validPass) {
             return res.status(400).json({ mensaje: "Contraseña incorrecta" });
         }
 
-        // Genera el Token
+        // Generar Token
         const token = jwt.sign(
             { id: usuario.id }, 
-            process.env.JWT_SECRET || 'museo_secreto_fallback', 
+            process.env.JWT_SECRET || 'museocalico', 
             { expiresIn: '2h' }
         );
 
@@ -58,7 +58,11 @@ router.post('/login', (req, res) => {
             token: token,
             usuario: { id: usuario.id, nombre: usuario.nombre, email: usuario.email }
         });
-    });
+
+    } catch (error) {
+        console.error("ERROR LOGIN:", error.message);
+        res.status(500).json({ mensaje: "Error en el servidor: " + error.message });
+    }
 });
 
 module.exports = router;
