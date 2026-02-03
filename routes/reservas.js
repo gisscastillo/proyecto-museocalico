@@ -24,4 +24,19 @@ router.get('/', async (req, res) => {
         res.status(500).json({ mensaje: "Error al obtener datos" });
     }
 });
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const resultado = await pool.query('DELETE FROM reservas WHERE id = $1', [id]);
+        
+        if (resultado.rowCount === 0) {
+            return res.status(404).json({ mensaje: "No se encontró la reserva" });
+        }
+
+        res.json({ mensaje: "Reserva eliminada correctamente" });
+    } catch (err) {
+        console.error("Error al borrar:", err);
+        res.status(500).json({ mensaje: "Error interno al eliminar" });
+    }
+});
 module.exports = router;
