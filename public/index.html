@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo Cálico | Bienvenida</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="hero" style="height: 100vh;">
+        <nav class="navbar">
+            <div class="logo">MUSEO CÁLICO</div>
+        </nav>
+        <div class="hero-content">
+            <h1>MUSEO CÁLICO</h1>
+            <p>Un espacio dedicado a la preservación y contemplación del arte</p>
+            <br>
+            <a href="#" onclick="entrarAlMuseo()" class="btn-gold" style="padding: 15px 40px; text-decoration: none;">EXPLORAR GALERÍA</a>
+        </div>
+    </header>
+
+    <script>
+        function entrarAlMuseo() {
+            const token = localStorage.getItem('token');
+            // Si tiene token va al museo, si no, a loguearse
+            window.location.href = token ? 'museo.html' : 'auth.html';
+        }
+    </script>
+</body>
+</html>

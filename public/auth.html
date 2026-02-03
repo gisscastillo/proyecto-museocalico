@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso | Museo Cálico</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&display=swap" rel="stylesheet">
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(61, 65, 50, 0.7), rgba(61, 65, 50, 0.7)), 
+                        url('https://i.pinimg.com/1200x/51/a4/00/51a40056056eb3fab062dd7db1f67992.jpg') center/cover;
+        }
+        /* Formulario */
+        .auth-box {
+            width: 400px;
+            background: white;
+            border: 5px solid var(--gold);
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        /* Botones */
+        .toggle-btns {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gold);
+        }
+        .toggle-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-family: 'Playfair Display';
+            color: #888;
+        }
+        /* Botón activo */
+        .toggle-btn.active {
+            color: var(--dark-gold);
+            font-weight: bold;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-box">
+
+            <div class="toggle-btns">
+                <button class="toggle-btn active" onclick="showForm('login')">INICIAR SESIÓN</button>
+                <button class="toggle-btn" onclick="showForm('register')">REGISTRARSE</button>
+            </div>
+
+            <!-- Formulario de inicio de sesión -->
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Correo Electrónico" required style="margin-bottom: 15px;">
+                <input type="password" id="loginPass" placeholder="Contraseña" required style="margin-bottom: 15px;">
+                <button type="submit" class="btn-gold">ENTRAR AL MUSEO</button>
+            </form>
+
+            <!-- Formulario de registro -->
+            <form id="registerForm" class="hidden">
+                <input type="text" id="regNombre" placeholder="Nombre Completo" required style="margin-bottom: 15px;">
+                <input type="email" id="regEmail" placeholder="Correo Electrónico" required style="margin-bottom: 15px;">
+                <input type="password" id="regPass" placeholder="Contraseña" required style="margin-bottom: 15px;">
+                <button type="submit" class="btn-gold">CREAR CUENTA</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showForm(type) {
+            document.getElementById('loginForm').classList.toggle('hidden', type === 'register');
+            document.getElementById('registerForm').classList.toggle('hidden', type === 'login');
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.toggle('active'));
+        }
+
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPass').value;
+
+            // Enviar credenciales al backend
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+
+            // Si el login es correcto
+            if (res.ok) {
+                localStorage.setItem('token', data.token);
+
+                // Asignar rol por tipo de correo
+                localStorage.setItem('role', email === 'admin@museocalico.com' ? 'admin' : 'user');
+
+                // Redirección según el rol
+                window.location.href = (email === 'admin@museocalico.com') ? 'admin.html' : 'index.html';
+            } else {
+                alert(data.mensaje);
+            }
+        };
+
+        // Registrar nuevo usuario
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault();
+
+            // Datos de nuevo usuario
+            const datosParaEnviar = {
+                nombre: document.getElementById('regNombre').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPass').value
+            };
+
+            // Enviar datos al backend
+            const res = await fetch('http://localhost:3000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosParaEnviar)
+            });
+
+            const data = await res.json();
+
+            // Resultado del registro
+            if (res.ok) {
+                alert('✨ Registro exitoso. Ya puedes iniciar sesión.');
+                showForm('login');
+            } else {
+                alert('Error: ' + data.mensaje);
+            }
+        };
+    </script>
+</body>
+</html>

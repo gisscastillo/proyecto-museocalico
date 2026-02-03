@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin | Museo Cálico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --cafe-moka: #3d2b1f; 
+            --oro: #b89655;
+            --beige-suave: #e5ddd3;
+            --crema: #fdfaf5;
+            --asistio: #2d4f35;
+            --no-asistio: #7a2a2a;
+            --pendiente: #5d4037;
+        }
+
+        /* Estilos generales */
+        body { 
+            background-color: var(--beige-suave); 
+            font-family: 'Quicksand', sans-serif; 
+            margin: 0; 
+            color: #2a1b0a;
+            padding-top: 80px;
+        }
+        .nav-admin {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--cafe-moka);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            border-bottom: 3px solid var(--oro);
+            z-index: 1000;
+        }
+
+        .nav-logo { font-family: 'Cinzel'; color: var(--oro); font-weight: bold; }
+        .nav-buttons { display: flex; gap: 15px; }
+
+        /* Botones */
+        .btn-nav {
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1.5px solid var(--oro);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Contenido principal */
+        .header-admin { text-align: center; padding: 25px; }
+
+        /* Contador de boletos */
+        .stats-container { display: flex; justify-content: center; margin-bottom: 30px; }
+
+        /* Buscador */
+        .search-wrap { max-width: 550px; margin: 0 auto 40px; position: relative; }
+
+        /* Tabla de registros */
+        .main-wrapper { max-width: 1100px; margin: 0 auto 50px; }
+        .table-dark-bg { background: var(--cafe-moka); padding: 25px; border-radius: 25px; }
+
+        /* Estados de visita */
+        .st-pendiente { background-color: var(--pendiente); }
+        .st-asistio { background-color: var(--asistio); }
+        .st-noasistio { background-color: var(--no-asistio); }
+
+        /* Ajustes para celualr */
+        @media (max-width: 600px) {
+            .btn-nav span { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Panel administrador -->
+    <nav class="nav-admin">
+        <div class="nav-logo">ADMIN CÁLICO</div>
+        <div class="nav-buttons">
+            <!-- Vista pública -->
+            <a href="museo.html" class="btn-nav btn-view">
+                <i class="fa-solid fa-eye"></i> <span>Ver Museo</span>
+            </a>
+            <!-- Cerrar sesión -->
+            <button onclick="logout()" class="btn-nav btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Salir</span>
+            </button>
+        </div>
+    </nav>
+    <header class="header-admin">
+        <h1>Gestión de Visitantes</h1>
+    </header>
+
+    <!-- Contador total -->
+    <div class="stats-container">
+        <div class="plate-info">
+            <span>Boletos Registrados</span>
+            <h2 id="totalCounter">0</h2>
+        </div>
+    </div>
+
+    <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Buscar visitante por nombre o correo...">
+    </div>
+
+    <main class="main-wrapper">
+        <div class="table-dark-bg">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Visitante</th>
+                        <th>Detalles / Contacto</th>
+                        <th>Cant.</th>
+                        <th>Estado de Visita</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="reservaLista"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Token 
+        const TOKEN = localStorage.getItem('token');
+
+        // URL 
+        const API_URL = 'http://localhost:3000/api/productos';
+
+        if (!TOKEN) window.location.href = 'auth.html';
+
+        // Cerrar sesión
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'auth.html';
+        }
+
+        // Cargar datos desde API
+        async function cargar() {
+            try {
+                const res = await fetch(`${API_URL}?cache=${Date.now()}`, {
+                    headers: { 'auth-token': TOKEN }
+                });
+                const data = await res.json();
+                renderizar(data);
+            } catch (err) {
+                console.error("Error cargando datos");
+            }
+        }
+
+        // Mostrar registros 
+        function renderizar(data) {
+            const lista = document.getElementById('reservaLista');
+            lista.innerHTML = '';
+            let total = 0;
+
+            data.forEach(item => {
+                const idRegistro = item.id || item._id;
+                total += parseInt(item.precio || 0);
+
+                // Estado de visita
+                let statusText = "Pendiente", statusClass = "st-pendiente";
+                if (item.descripcion.includes("OK")) {
+                    statusText = "Asistió";
+                    statusClass = "st-asistio";
+                } else if (item.descripcion.includes("NO")) {
+                    statusText = "No Asistió";
+                    statusClass = "st-noasistio";
+                }
+
+                const descLimpia = item.descripcion.split(" | STATUS:")[0];
+
+                const tr = document.createElement('tr');
+                tr.className = 'row-museum';
+                tr.innerHTML = `
+                    <td>${item.nombre}</td>
+                    <td>${descLimpia}</td>
+                    <td>${item.precio}</td>
+                    <td>
+                        <button class="btn-status ${statusClass}"
+                            onclick="cambiarEstado('${idRegistro}', '${item.nombre}', '${item.descripcion}', ${item.precio}, '${statusText}')">
+                            ${statusText}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn-del" onclick="borrar('${idRegistro}')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                lista.appendChild(tr);
+            });
+
+            // Actualizar contador
+            document.getElementById('totalCounter').innerText = total;
+        }
+
+        // Cambiar estado 
+        async function cambiarEstado(id, nombre, desc, precio, actual) {
+            if (!id || id === 'undefined') return;
+
+            const baseDesc = desc.split(" | STATUS:")[0];
+            let nuevoTag =
+                actual === "Pendiente" ? "OK" :
+                actual === "Asistió" ? "NO" : "PENDIENTE";
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': TOKEN
+                    },
+                    body: JSON.stringify({
+                        nombre,
+                        descripcion: `${baseDesc} | STATUS:${nuevoTag}`,
+                        precio
+                    })
+                });
+                if (response.ok) cargar();
+            } catch {
+                console.error("Error al actualizar");
+            }
+        }
+
+        // Eliminar 
+        async function borrar(id) {
+            if (!confirm("¿Deseas eliminar este registro permanentemente?")) return;
+            await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE',
+                headers: { 'auth-token': TOKEN }
+            });
+            cargar();
+        }
+
+        // Búsqueda 
+        document.getElementById('searchInput').onkeyup = function() {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll('.row-museum').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
+            });
+        };
+
+        cargar();
+    </script>
+</body>
+</html>
