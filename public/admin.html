@@ -234,21 +234,21 @@
     }
 
     async function cargar() {
-        try {
-            const res = await fetch('/api/reservas', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-
-            if (!res.ok) throw new Error("No se pudo obtener la lista");
-
-            const data = await res.json();
-            renderizar(data);
-        } catch (err) {
-            console.error("Error al cargar reservas:", err);
+    try {
+        const res = await fetch('/api/reservas'); 
+        
+        if (!res.ok) {
+            console.error("Error en respuesta:", res.status);
+            return;
         }
+
+        const data = await res.json();
+        console.log("Datos recibidos:", data); 
+        renderizar(data);
+    } catch (err) {
+        console.error("Error al conectar con la API:", err);
     }
+}
 
     function renderizar(data) {
         const lista = document.getElementById('reservaLista');
@@ -270,3 +270,4 @@
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </td>
+
