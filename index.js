@@ -1,33 +1,29 @@
 require('dotenv').config();
-
-// Librerías principales
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db')
+const pool = require('./db');
 const app = express();
 
-// Middlewares
+// Middlewares 
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Rutas para visitantes
-app.use('/api/productos', require('./routes/productos'));
+app.get('/health', (req, res) => res.send('Servidor del museo funcionando'));
 
-// login y registro
+// Rutas
+app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
 
-// Manejo de errores
+// Manejo de errores 
 app.use((err, req, res, next) => {
-    console.error("ERROR DETECTADO:", err.message);
+    console.error("ERROR EN EL SERVIDOR:", err);
     res.status(500).json({
         estado: 'Error',
         mensaje: 'Error interno en el servidor del museo',
-        error: err.message
+        detalles: err.message
     });
 });
 
-// inicio del servidor
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
