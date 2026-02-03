@@ -4,160 +4,79 @@
     <meta charset="UTF-8">
     <title>Acceso | Museo Cálico</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --gold: #c5a059;
-            --dark-gold: #a67c37;
-        }
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(rgba(61, 65, 50, 0.7), rgba(61, 65, 50, 0.7)), 
-                        url('https://i.pinimg.com/1200x/51/a4/00/51a40056056eb3fab062dd7db1f67992.jpg') center/cover;
-        }
-        .auth-box {
-            width: 400px;
-            background: white;
-            border: 5px solid var(--gold);
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-        .toggle-btns {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--gold);
-        }
-        .toggle-btn {
-            flex: 1;
-            background: none;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-family: 'Playfair Display';
-            color: #888;
-            transition: 0.3s;
-        }
-        .toggle-btn.active {
-            color: var(--dark-gold);
-            font-weight: bold;
-            border-bottom: 3px solid var(--dark-gold);
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        .btn-gold {
-            width: 100%;
-            padding: 12px;
-            background: var(--gold);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-gold:hover {
-            background: var(--dark-gold);
-        }
+        :root { --gold: #c5a059; --dark-gold: #a67c37; }
+        .auth-container { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: #3d4132; font-family: 'Lora', serif; }
+        .auth-box { width: 400px; background: white; padding: 40px; border: 5px solid var(--gold); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        .toggle-btns { display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--gold); }
+        .toggle-btn { flex: 1; background: none; border: none; padding: 10px; cursor: pointer; }
+        .toggle-btn.active { color: var(--dark-gold); font-weight: bold; border-bottom: 3px solid var(--dark-gold); }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; }
+        .btn-gold { width: 100%; padding: 12px; background: var(--gold); color: white; border: none; cursor: pointer; font-weight: bold; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
-
     <div class="auth-container">
         <div class="auth-box">
             <div class="toggle-btns">
-                <button id="btn-login" class="toggle-btn active" onclick="showForm('login')">INICIAR SESIÓN</button>
-                <button id="btn-register" class="toggle-btn" onclick="showForm('register')">REGISTRARSE</button>
+                <button id="btn-login" class="toggle-btn active" onclick="showForm('login')">LOGIN</button>
+                <button id="btn-register" class="toggle-btn" onclick="showForm('register')">REGISTRO</button>
             </div>
-
             <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Correo Electrónico" required>
+                <input type="email" id="loginEmail" placeholder="Correo" required>
                 <input type="password" id="loginPass" placeholder="Contraseña" required>
-                <button type="submit" class="btn-gold">ENTRAR AL MUSEO</button>
+                <button type="submit" class="btn-gold">ENTRAR</button>
             </form>
-
             <form id="registerForm" class="hidden">
-                <input type="text" id="regNombre" placeholder="Nombre Completo" required>
-                <input type="email" id="regEmail" placeholder="Correo Electrónico" required>
+                <input type="text" id="regNombre" placeholder="Nombre" required>
+                <input type="email" id="regEmail" placeholder="Correo" required>
                 <input type="password" id="regPass" placeholder="Contraseña" required>
                 <button type="submit" class="btn-gold">CREAR CUENTA</button>
             </form>
         </div>
     </div>
-
     <script>
         function showForm(type) {
             const isLogin = type === 'login';
             document.getElementById('loginForm').classList.toggle('hidden', !isLogin);
             document.getElementById('registerForm').classList.toggle('hidden', isLogin);
-            
             document.getElementById('btn-login').classList.toggle('active', isLogin);
             document.getElementById('btn-register').classList.toggle('active', !isLogin);
         }
 
-        // Login
+        async function enviar(ruta, datos) {
+            const res = await fetch(ruta, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
+            return await res.json();
+        }
+
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPass').value;
-
-            try {
-                const res = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const data = await res.json();
-
-                if (res.ok) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('role', email === 'admin@museocalico.com' ? 'admin' : 'user');
-                    window.location.href = (email === 'admin@museocalico.com') ? 'admin.html' : 'index.html';
-                } else {
-                    alert(data.mensaje || 'Error en las credenciales');
-                }
-            } catch (err) {
-                alert('Error de conexión con el servidor');
-            }
+            const data = await enviar('/api/auth/login', {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPass').value
+            });
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                window.location.href = 'index.html';
+            } else { alert(data.mensaje); }
         };
 
-        // Registro
         document.getElementById('registerForm').onsubmit = async (e) => {
             e.preventDefault();
-
-            const datosParaEnviar = {
+            const data = await enviar('/api/auth/register', {
                 nombre: document.getElementById('regNombre').value,
                 email: document.getElementById('regEmail').value,
                 password: document.getElementById('regPass').value
-            };
-
-            try {
-                // Se usa ruta relativa para que funcione en Render automáticamente
-                const res = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(datosParaEnviar)
-                });
-
-                const data = await res.json();
-
-                if (res.ok) {
-                    alert('Registro exitoso. Ahora puedes iniciar sesión.');
-                    showForm('login');
-                } else {
-                    alert('Error: ' + (data.mensaje || 'No se pudo completar el registro'));
-                }
-            } catch (err) {
-                alert('Error al conectar con el servidor');
-            }
+            });
+            if (data.mensaje === "Usuario creado") {
+                alert('¡Listo! Inicia sesión ahora.');
+                showForm('login');
+            } else { alert(data.mensaje); }
         };
     </script>
 </body>
