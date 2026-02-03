@@ -15,5 +15,13 @@ router.post('/crear', async (req, res) => {
         res.status(500).json({ mensaje: "Error al guardar en base de datos" });
     }
 });
-
+router.get('/', async (req, res) => {
+    try {
+        const resultado = await pool.query('SELECT * FROM reservas ORDER BY id DESC');
+        res.json(resultado.rows); 
+    } catch (err) {
+        console.error("Error en DB:", err);
+        res.status(500).json({ mensaje: "Error al obtener datos" });
+    }
+});
 module.exports = router;
