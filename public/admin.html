@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin | Museo Cálico</title>
@@ -19,18 +18,18 @@
             --pendiente: #5d4037;
         }
 
-        /* Estilos generales */
         body { 
             background-color: var(--beige-suave); 
             font-family: 'Quicksand', sans-serif; 
             margin: 0; 
             color: #2a1b0a;
-            padding-top: 80px;
+            padding-top: 100px;
         }
+
+        /* Navbar */
         .nav-admin {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             background: var(--cafe-moka);
             display: flex;
             justify-content: space-between;
@@ -38,67 +37,100 @@
             padding: 15px 30px;
             border-bottom: 3px solid var(--oro);
             z-index: 1000;
+            box-sizing: border-box;
         }
-
-        .nav-logo { font-family: 'Cinzel'; color: var(--oro); font-weight: bold; }
+        .nav-logo { font-family: 'Cinzel'; color: var(--oro); font-weight: bold; font-size: 1.4rem; }
         .nav-buttons { display: flex; gap: 15px; }
 
-        /* Botones */
         .btn-nav {
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 700;
             border: 1.5px solid var(--oro);
+            background: transparent;
+            color: var(--oro);
+            cursor: pointer;
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: 0.3s;
         }
+        .btn-nav:hover { background: var(--oro); color: white; }
 
-        /* Contenido principal */
-        .header-admin { text-align: center; padding: 25px; }
-
-        /* Contador de boletos */
+        /* Encabezado y Stats */
+        .header-admin { text-align: center; margin-bottom: 20px; }
+        .header-admin h1 { font-family: 'Cinzel'; color: var(--cafe-moka); margin: 0; }
+        
         .stats-container { display: flex; justify-content: center; margin-bottom: 30px; }
+        .plate-info {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 2px solid var(--oro);
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .plate-info span { color: #888; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+        .plate-info h2 { margin: 5px 0 0; font-size: 2.5rem; color: var(--cafe-moka); }
 
         /* Buscador */
-        .search-wrap { max-width: 550px; margin: 0 auto 40px; position: relative; }
+        .search-wrap { max-width: 600px; margin: 0 auto 40px; position: relative; }
+        .search-wrap i { position: absolute; left: 15px; top: 15px; color: var(--oro); }
+        .search-wrap input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border-radius: 30px;
+            border: 1px solid var(--oro);
+            font-family: inherit;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            outline: none;
+        }
 
-        /* Tabla de registros */
-        .main-wrapper { max-width: 1100px; margin: 0 auto 50px; }
-        .table-dark-bg { background: var(--cafe-moka); padding: 25px; border-radius: 25px; }
+        /* Tabla */
+        .main-wrapper { max-width: 1100px; margin: 0 auto 50px; padding: 0 20px; }
+        .table-dark-bg { 
+            background: var(--cafe-moka); 
+            padding: 30px; 
+            border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; color: white; text-align: left; }
+        th { border-bottom: 1px solid #555; padding: 15px; color: var(--oro); font-family: 'Cinzel'; }
+        td { padding: 15px; border-bottom: 1px solid #444; }
 
-        /* Estados de visita */
-        .st-pendiente { background-color: var(--pendiente); }
-        .st-asistio { background-color: var(--asistio); }
-        .st-noasistio { background-color: var(--no-asistio); }
+        /* Botones Acción */
+        .btn-del {
+            background: #7a2a2a;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-del:hover { background: #ff4d4d; }
 
-        /* Ajustes para celualr */
         @media (max-width: 600px) {
             .btn-nav span { display: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Panel administrador -->
     <nav class="nav-admin">
         <div class="nav-logo">ADMIN CÁLICO</div>
         <div class="nav-buttons">
-            <!-- Vista pública -->
-            <a href="museo.html" class="btn-nav btn-view">
-                <i class="fa-solid fa-eye"></i> <span>Ver Museo</span>
-            </a>
-            <!-- Cerrar sesión -->
-            <button onclick="logout()" class="btn-nav btn-logout">
-                <i class="fa-solid fa-right-from-bracket"></i> <span>Salir</span>
-            </button>
+            <a href="index.html" class="btn-nav"><i class="fa-solid fa-eye"></i> <span>Ver Museo</span></a>
+            <button onclick="logout()" class="btn-nav"><i class="fa-solid fa-right-from-bracket"></i> <span>Salir</span></button>
         </div>
     </nav>
+
     <header class="header-admin">
         <h1>Gestión de Visitantes</h1>
     </header>
 
-    <!-- Contador total -->
     <div class="stats-container">
         <div class="plate-info">
             <span>Boletos Registrados</span>
@@ -117,9 +149,9 @@
                 <thead>
                     <tr>
                         <th>Visitante</th>
-                        <th>Detalles / Contacto</th>
+                        <th>Correo</th>
+                        <th>Fecha / Hora</th>
                         <th>Cant.</th>
-                        <th>Estado de Visita</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
@@ -129,69 +161,48 @@
     </main>
 
     <script>
-        // Token 
         const TOKEN = localStorage.getItem('token');
+        // Ruta corregida para tu backend
+        const API_URL = '/api/reservas';
 
-        // URL 
-        const API_URL = 'https://proyecto-museocalico2.onrender.com/api/productos';
-
-        if (!TOKEN) window.location.href = 'auth.html';
-
-        // Cerrar sesión
-        function logout() {
-            localStorage.removeItem('token');
+        if (!TOKEN || localStorage.getItem('role') !== 'admin') {
             window.location.href = 'auth.html';
         }
 
-        // Cargar datos desde API
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'auth.html';
+        }
+
         async function cargar() {
             try {
-                const res = await fetch(`${API_URL}?cache=${Date.now()}`, {
-                    headers: { 'auth-token': TOKEN }
+                // El backend debe tener una ruta GET /api/reservas
+                const res = await fetch(API_URL, {
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
                 });
                 const data = await res.json();
                 renderizar(data);
             } catch (err) {
-                console.error("Error cargando datos");
+                console.error("Error al cargar reservas");
             }
         }
 
-        // Mostrar registros 
         function renderizar(data) {
             const lista = document.getElementById('reservaLista');
             lista.innerHTML = '';
-            let total = 0;
+            let totalBoletos = 0;
 
             data.forEach(item => {
-                const idRegistro = item.id || item._id;
-                total += parseInt(item.precio || 0);
-
-                // Estado de visita
-                let statusText = "Pendiente", statusClass = "st-pendiente";
-                if (item.descripcion.includes("OK")) {
-                    statusText = "Asistió";
-                    statusClass = "st-asistio";
-                } else if (item.descripcion.includes("NO")) {
-                    statusText = "No Asistió";
-                    statusClass = "st-noasistio";
-                }
-
-                const descLimpia = item.descripcion.split(" | STATUS:")[0];
-
+                totalBoletos += parseInt(item.cantidad_personas);
                 const tr = document.createElement('tr');
                 tr.className = 'row-museum';
                 tr.innerHTML = `
-                    <td>${item.nombre}</td>
-                    <td>${descLimpia}</td>
-                    <td>${item.precio}</td>
+                    <td><strong>${item.nombre_usuario}</strong></td>
+                    <td>${item.email_usuario}</td>
+                    <td>${new Date(item.fecha).toLocaleDateString()} | ${item.hora}</td>
+                    <td>${item.cantidad_personas}</td>
                     <td>
-                        <button class="btn-status ${statusClass}"
-                            onclick="cambiarEstado('${idRegistro}', '${item.nombre}', '${item.descripcion}', ${item.precio}, '${statusText}')">
-                            ${statusText}
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn-del" onclick="borrar('${idRegistro}')">
+                        <button class="btn-del" onclick="borrar(${item.id})">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </td>
@@ -199,49 +210,22 @@
                 lista.appendChild(tr);
             });
 
-            // Actualizar contador
-            document.getElementById('totalCounter').innerText = total;
+            document.getElementById('totalCounter').innerText = totalBoletos;
         }
 
-        // Cambiar estado 
-        async function cambiarEstado(id, nombre, desc, precio, actual) {
-            if (!id || id === 'undefined') return;
-
-            const baseDesc = desc.split(" | STATUS:")[0];
-            let nuevoTag =
-                actual === "Pendiente" ? "OK" :
-                actual === "Asistió" ? "NO" : "PENDIENTE";
-
+        async function borrar(id) {
+            if (!confirm("¿Eliminar esta reserva permanentemente?")) return;
             try {
-                const response = await fetch(`${API_URL}/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': TOKEN
-                    },
-                    body: JSON.stringify({
-                        nombre,
-                        descripcion: `${baseDesc} | STATUS:${nuevoTag}`,
-                        precio
-                    })
+                await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${TOKEN}` }
                 });
-                if (response.ok) cargar();
-            } catch {
-                console.error("Error al actualizar");
+                cargar();
+            } catch (err) {
+                alert("No se pudo eliminar");
             }
         }
 
-        // Eliminar 
-        async function borrar(id) {
-            if (!confirm("¿Deseas eliminar este registro permanentemente?")) return;
-            await fetch(`${API_URL}/${id}`, {
-                method: 'DELETE',
-                headers: { 'auth-token': TOKEN }
-            });
-            cargar();
-        }
-
-        // Búsqueda 
         document.getElementById('searchInput').onkeyup = function() {
             let val = this.value.toLowerCase();
             document.querySelectorAll('.row-museum').forEach(row => {
@@ -252,5 +236,4 @@
         cargar();
     </script>
 </body>
-
 </html>
