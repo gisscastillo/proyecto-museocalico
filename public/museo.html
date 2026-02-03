@@ -101,7 +101,6 @@
         </section>
 
         <section id="contacto" class="container booking-combined" style="margin-top: 80px; padding-bottom: 80px;">
-            
             <div class="gallery-plate schedule-card">
                 <div class="plate-content">
                     <i class="fa-regular fa-clock schedule-icon"></i>
@@ -150,42 +149,46 @@
     </footer>
 
     <script>
-        // Envío a la base de datos con el token
         document.getElementById('reservationForm').onsubmit = async (e) => {
             e.preventDefault();
             const token = localStorage.getItem('token');
 
+            // Mapeamos los datos para que coincidan con la tabla 'reservas'
             const datos = {
                 nombre: document.getElementById('nombre').value + " " + document.getElementById('apellido').value,
-                descripcion: "Contacto: " + document.getElementById('correo').value + " | Fecha: " + document.getElementById('fecha').value,
-                precio: document.getElementById('cantidad').value
+                email: document.getElementById('correo').value,
+                fecha: document.getElementById('fecha').value,
+                hora: "10:00", // Valor por defecto ya que no hay input de hora
+                personas: parseInt(document.getElementById('cantidad').value)
             };
 
             try {
-                const res = await fetch('http://localhost:3000/api/productos', {
+                // CORRECCIÓN: Ruta relativa para Render y endpoint de reservas
+                const res = await fetch('/api/reservas/crear', {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
-                        'auth-token': token 
+                        'Authorization': `Bearer ${token}` 
                     },
                     body: JSON.stringify(datos)
                 });
 
                 if (res.ok) {
-                    alert('¡Reserva confirmada en la base de datos!');
+                    alert('¡Reserva confirmada con éxito!');
                     document.getElementById('reservationForm').reset();
                 } else {
-                    alert('Error en la reserva. Inicie sesión de nuevo.');
-                    window.location.href = 'auth.html';
+                    const errorData = await res.json();
+                    alert('Error: ' + (errorData.mensaje || 'Inicie sesión de nuevo.'));
+                    if (res.status === 401) window.location.href = 'auth.html';
                 }
             } catch (err) {
-                alert('Servidor no disponible');
+                alert('Servidor no disponible. Revisa tu conexión.');
             }
         };
 
         function cerrarSesion() {
             localStorage.removeItem('token');
-            window.location.href = 'index.html';
+            window.location.href = 'auth.html';
         }
     </script>
 </body>
