@@ -38,6 +38,9 @@ app.use((err, req, res, next) => {
         error: err.message 
     });
 });
+app.get('/hola', (req, res) => {
+  res.send('El servidor está vivo y funcionando');
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
 
