@@ -1,29 +1,97 @@
 require('dotenv').config(); 
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
+
 const app = express();
 
-// Middlewares 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.get('/health', (req, res) => res.send('Servidor del museo funcionando'));
+// Ruta
+app.get('/health', (req, res) => {
+  res.send('Servidor del museo funcionando');
+});
 
-// Rutas 
+// Ruta clima y frase
+app.get('/api/museo/info', async (req, res) => {
+  const frases = [
+    "El arte es la mentira que nos permite comprender la verdad.",
+    "Cada cuadro es un viaje a un mundo desconocido.",
+    "El museo es el lugar donde el tiempo se detiene.",
+    "La belleza salvará al mundo."
+  ];
+
+  const fraseAzar = frases[Math.floor(Math.random() * frases.length)];
+
+  try {
+    const apiKey = process.env.CLIMA_KEY;
+
+    if (!apiKey) {
+      throw new Error("CLIMA_KEY no configurada");
+    }
+
+    const response = await axios.get(
+      'https://api.openweathermap.org/data/2.5/weather',
+      {
+        params: {
+          q: 'Mexico',
+          units: 'metric',
+          appid: apiKey,
+          lang: 'es'
+        },
+        timeout: 5000
+      }
+    );
+
+    return res.json({
+      ok: true,
+      frase: fraseAzar,
+      temperatura: response.data.main.temp + "°C",
+      recomendacion: "Clima perfecto para visitar el museo."
+    });
+
+  } catch (error) {
+    console.error("Error obteniendo clima:", error.message);
+
+    return res.json({
+      ok: true,
+      frase: fraseAzar,
+      temperatura: "22°C",
+      recomendacion: "Visita el museo hoy mismo."
+    });
+  }
+});
+
+//Rutas
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/reservas', require('./routes/reservas'));
 
-// Manejo de errores 
-app.use((err, req, res, next) => {
-    console.error("ERROR EN EL SERVIDOR:", err);
-    res.status(500).json({
-        estado: 'Error',
-        mensaje: 'Error interno en el servidor del museo',
-        detalles: err.message
-    });
+//Middleware
+app.use((req, res) => {
+  res.status(404).json({
+    ok: false,
+    mensaje: "Ruta no encontrada"
+  });
 });
 
+// Manejo de errores
+app.use((err, req, res, next) => {
+  console.error("=== ERROR EN EL SERVIDOR ===");
+  console.error(err.stack);
+
+  res.status(err.status || 500).json({
+    ok: false,
+    mensaje: "Error interno en el servidor del museo",
+    detalles: err.message
+  });
+});
+
+// Puerto del server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Servidor activo en puerto ${PORT}`);
+});
