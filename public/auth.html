@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso | Museo Cálico</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(61, 65, 50, 0.7), rgba(61, 65, 50, 0.7)), 
+                        url('https://i.pinimg.com/1200x/51/a4/00/51a40056056eb3fab062dd7db1f67992.jpg') center/cover;
+        }
+        .auth-box {
+            width: 400px;
+            background: white;
+            border: 5px solid #c5a059;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .toggle-btns { display: flex; margin-bottom: 20px; border-bottom: 1px solid #c5a059; }
+        .toggle-btn { flex: 1; background: none; border: none; padding: 10px; cursor: pointer; font-family: 'Playfair Display'; color: #888; }
+        .toggle-btn.active { color: #a67c37; font-weight: bold; border-bottom: 3px solid #a67c37; }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; }
+        .btn-gold { width: 100%; padding: 12px; background: #c5a059; color: white; border: none; cursor: pointer; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="toggle-btns">
+                <button id="btn-login" class="toggle-btn active" onclick="showForm('login')">INICIAR SESIÓN</button>
+                <button id="btn-register" class="toggle-btn" onclick="showForm('register')">REGISTRARSE</button>
+            </div>
+
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Correo Electrónico" required>
+                <input type="password" id="loginPass" placeholder="Contraseña" required>
+                <button type="submit" class="btn-gold">ENTRAR AL MUSEO</button>
+            </form>
+
+            <form id="registerForm" class="hidden">
+                <input type="text" id="regNombre" placeholder="Nombre Completo" required>
+                <input type="email" id="regEmail" placeholder="Correo Electrónico" required>
+                <input type="password" id="regPass" placeholder="Contraseña" required>
+                <button type="submit" class="btn-gold">CREAR CUENTA</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showForm(type) {
+            const isLogin = type === 'login';
+            document.getElementById('loginForm').classList.toggle('hidden', !isLogin);
+            document.getElementById('registerForm').classList.toggle('hidden', isLogin);
+            document.getElementById('btn-login').classList.toggle('active', isLogin);
+            document.getElementById('btn-register').classList.toggle('active', !isLogin);
+        }
+
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPass').value;
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // Guardar Token
+                    localStorage.setItem('token', data.token);
+
+                    // Lógica de Administrador
+                    const isAdmin = email === 'admin@museocalico.com';
+                    localStorage.setItem('role', isAdmin ? 'admin' : 'user');
+
+                    // Redirección: admin.html si es el correo del admin, index.html para el resto
+                    window.location.href = isAdmin ? 'admin.html' : 'index.html';
+                } else {
+                    alert(data.mensaje);
+                }
+            } catch (err) {
+                alert('Error de conexión con el servidor. Revisa que Render esté activo.');
+            }
+        };
+
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nombre: document.getElementById('regNombre').value,
+                        email: document.getElementById('regEmail').value,
+                        password: document.getElementById('regPass').value
+                    })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert('¡Registro exitoso! Ahora inicia sesión.');
+                    showForm('login');
+                } else {
+                    alert(data.mensaje);
+                }
+            } catch (err) {
+                alert('No se pudo conectar con el servidor.');
+            }
+        };
+    </script>
+</body>
+</html>
