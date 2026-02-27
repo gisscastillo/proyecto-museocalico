@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 const validarReserva = require('../middleware/validarReserva'); // Importamos el validador del Paso 2
+const authMiddleware = require('../middleware/authMiddleware');
+const admin = require('../middleware/admin');
 
 // --- 1. RUTA PARA CREAR (Ahora con el middleware de validación) ---
 router.post('/crear', validarReserva, async (req, res) => {
@@ -20,7 +22,7 @@ router.post('/crear', validarReserva, async (req, res) => {
 });
 
 // --- RUTA GET CON PAGINACIÓN Y FILTROS (100% Cumplimiento) ---
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, admin, async (req, res) => {
     try {
         // Capturamos parámetros de la URL (ej: /reservas?page=1&limit=5&email=test@test.com)
         const page = parseInt(req.query.page) || 1;    // Página actual (por defecto 1)
