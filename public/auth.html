@@ -76,22 +76,18 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    // Guardar Token
                     localStorage.setItem('token', data.token);
-
-                    // Lógica de Administrador
-                    const isAdmin = email === 'admin@museocalico.com';
-                    localStorage.setItem('role', isAdmin ? 'admin' : 'user');
-
-                    // Redirección: admin.html si es el correo del admin, index.html para el resto
-                    window.location.href = isAdmin ? 'admin.html' : 'index.html';
+                    localStorage.setItem('role', data.rol);
+                    window.location.href = data.rol === 'admin'
+                        ? 'admin.html'
+                        : 'index.html';
                 } else {
-                    alert(data.mensaje);
+                    alert(data.mensaje);    
                 }
             } catch (err) {
                 alert('Error de conexión con el servidor. Revisa que Render esté activo.');
             }
-        };
+        };     
 
         document.getElementById('registerForm').onsubmit = async (e) => {
             e.preventDefault();
