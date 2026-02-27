@@ -292,3 +292,43 @@ input:focus {
         display: none;
     }
 }
+
+.clima-card {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #d4af37;
+}
+
+.clima-content {
+    text-align: center;
+    padding: 2.5rem;
+}
+
+/* Frase principal */
+.clima-frase {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    color: #2c3e50;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+.clima-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 18px auto;
+    opacity: 0.7;
+}
+/* info del clima */
+.clima-info {
+    font-family: 'Lora', serif;
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.clima-info i {
+    color: var(--gold);
+    margin-right: 6px;
+}
