@@ -58,6 +58,12 @@
             </div>
         </div>
 
+        <section id="panelClima" style="text-align:center; margin: 30px 0;">
+    <h2 id="fraseMuseo">Cargando frase...</h2>
+    <p id="tempMuseo">Cargando clima...</p>
+    <p id="recoMuseo"></p>
+</section>
+
     </section>
     <section class="container" style="margin-top: 40px;">
         <div class="gallery-plate" style="max-width: 800px; margin: 0 auto; border: 1px solid #d4af37;">
@@ -257,6 +263,25 @@
         localStorage.removeItem('token');
         window.location.href = 'auth.html';
     }
+</script>
+<script>
+async function cargarClima() {
+    try {
+        const res = await fetch('/api/museo/info');
+        const data = await res.json();
+
+        document.getElementById('fraseMuseo').innerText = data.frase;
+        document.getElementById('tempMuseo').innerText = "🌡️ " + data.temperatura;
+        document.getElementById('recoMuseo').innerText = data.recomendacion;
+
+    } catch (error) {
+        console.error("Error cargando clima:", error);
+        document.getElementById('tempMuseo').innerText =
+            "No se pudo cargar el clima.";
+    }
+}
+
+cargarClima();
 </script>
 
 </body>
