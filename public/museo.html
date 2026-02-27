@@ -57,6 +57,22 @@
                 </p>
             </div>
         </div>
+
+    </section>
+    <section class="container" style="margin-top: 40px;">
+        <div class="gallery-plate" style="max-width: 800px; margin: 0 auto; border: 1px solid #d4af37;">
+            <div class="plate-content" style="text-align: center;">
+                <h2 id="frase-texto" style="font-family: 'Playfair Display', serif; font-style: italic; color: #2c3e50;">
+                    "Cargando inspiración..."
+                </h2>
+                <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                    <p style="font-family: 'Lora', serif; color: #7f8c8d;">
+                        <i class="fa-solid fa-cloud-sun"></i> 
+                        <span id="clima-texto">Consultando clima...</span>
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Galería -->
@@ -113,6 +129,28 @@
             </article>
         </div>
     </section>
+
+    <script>
+    async function actualizarInfoMuseo() {
+        try {
+            // Llamamos a tu servidor de Render
+            const response = await fetch('/api/museo/info');
+            const data = await response.json();
+
+            // Insertamos los datos en el HTML
+            document.getElementById('frase-texto').textContent = `"${data.frase}"`;
+            document.getElementById('clima-texto').textContent = `${data.temperatura} - ${data.recomendacion}`;
+        } catch (error) {
+            console.error("Error al cargar datos:", error);
+            // Mensaje elegante por si falla la conexión
+            document.getElementById('frase-texto').textContent = '"El arte es la expresión del alma."';
+            document.getElementById('clima-texto').textContent = "22°C - Disfruta de nuestras salas climatizadas.";
+        }
+    }
+
+    // Ejecutar al cargar la página
+    document.addEventListener('DOMContentLoaded', actualizarInfoMuseo);
+</script>
 
     <!-- Reservación -->
     <section id="contacto" class="container booking-combined" style="margin-top: 80px; padding-bottom: 80px;">

@@ -185,7 +185,7 @@
                 if (!res.ok) throw new Error("Error al obtener datos");
 
                 const data = await res.json();
-                renderizar(data);
+                renderizar(data.datos);
             } catch (err) {
                 console.error("Fallo al cargar:", err);
                 document.getElementById('reservaLista').innerHTML = 
