@@ -137,16 +137,31 @@
     <p>&copy; 2026 Museo Cálico de Pintura y Escultura. Todos los derechos reservados.</p>
 </footer>
 
-<!-- scrip clima  -->
+<!-- script clima PRO -->
 <script>
-async function actualizarInfoMuseo() {
+document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('/api/museo/info');
-        const data = await response.json();
+        console.log("Intentando cargar clima...");
 
-        document.getElementById('frase-texto').textContent = `"${data.frase}"`;
-        document.getElementById('clima-texto').textContent =
-            `${data.temperatura} - ${data.recomendacion}`;
+        const response = await fetch('/api/museo/info');
+
+        console.log("STATUS:", response.status);
+
+        const data = await response.json();
+        console.log("DATA:", data);
+
+        const fraseEl = document.getElementById('frase-texto');
+        const climaEl = document.getElementById('clima-texto');
+
+        if (!fraseEl || !climaEl) {
+            console.error("No se encontraron elementos del clima");
+            return;
+        }
+
+        fraseEl.textContent = `"${data.frase}"`;
+        climaEl.textContent = `${data.temperatura} - ${data.recomendacion}`;
+
+        console.log("Clima renderizado");
 
     } catch (error) {
         console.error("Error al cargar datos:", error);
@@ -156,7 +171,8 @@ async function actualizarInfoMuseo() {
         document.getElementById('clima-texto').textContent =
             "22°C - Disfruta de nuestras salas climatizadas.";
     }
-}
+});
+</script>
 
 document.addEventListener('DOMContentLoaded', actualizarInfoMuseo);
 </script>
