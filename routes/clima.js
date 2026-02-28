@@ -5,17 +5,16 @@ const axios = require('axios');
 // Ruta para obtener el clima del museo
 router.get('/estado', async (req, res) => {
     try {
-        const ciudad = "Ciudad de Mexico"; // Puedes cambiarla por tu ciudad local
+        const ciudad = "Ciudad de Mexico"; 
         const apiKey = "9b5c6b67e20d605d559fdc6fd9851f4d";
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
 
         const respuesta = await axios.get(url);
         
-        // Extraemos datos reales de la API externa
+        // Datos reales de la API
         const temp = respuesta.data.main.temp;
         const climaDesc = respuesta.data.weather[0].description;
 
-        // --- FUNCIONALIDAD PERSONALIZADA PARA EL MUSEO ---
         let sugerencia = "";
         if (temp > 25) {
             sugerencia = "Día caluroso. Recomendamos visitar nuestras salas con aire acondicionado y la fuente principal.";

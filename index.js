@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// --- RUTA ÚNICA: CLIMA + FRASE (ESTA ES LA QUE USARÁS EN POSTMAN) ---
+// clima y frase
 app.get('/api/museo/info', async (req, res) => {
   const frases = [
     "El arte es la mentira que nos permite comprender la verdad.",
@@ -21,7 +21,7 @@ app.get('/api/museo/info', async (req, res) => {
   const fraseAzar = frases[Math.floor(Math.random() * frases.length)];
 
   try {
-    // Intentamos traer clima real
+    //clima real con API
     const response = await axios.get('https://api.openweathermap.org/data/2.5/weather?q=Mexico&units=metric&appid=TU_API_KEY');
     res.json({ 
       frase: fraseAzar,
@@ -29,7 +29,6 @@ app.get('/api/museo/info', async (req, res) => {
       recomendacion: "Clima perfecto para visitar el museo." 
     });
   } catch (error) {
-    // Si la API falla, mandamos datos fijos para que NUNCA de error 404
     res.json({ 
       frase: fraseAzar,
       temperatura: "22°C", 

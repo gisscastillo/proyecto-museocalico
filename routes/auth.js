@@ -68,7 +68,7 @@ router.post('/login', async (req, res) => {
 
         // Verificar JWT_SECRET
         if (!process.env.JWT_SECRET) {
-            console.error("❌ JWT_SECRET no está configurado");
+            console.error("JWT_SECRET no está configurado");
             return res.status(500).json({ mensaje: "Error de configuración del servidor" });
         }
 
