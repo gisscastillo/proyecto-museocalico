@@ -5,14 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería | Museo Cálico</title>
 
-    <!-- Estilos -->
     <link rel="stylesheet" href="styles.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Cormorant+Garamond:wght@400;500;600&family=Lora:ital@0;1&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Protección de acceso -->
     <script>
         if (!localStorage.getItem('token')) {
             window.location.href = 'auth.html';
@@ -26,7 +22,6 @@
             letter-spacing: 0.5px;
             color: #2c3e50;
         }
-
         #clima-texto{
             font-family: 'Lora', serif;
             font-size: 1.05rem;
@@ -53,36 +48,25 @@
 
 <main class="parchment-bg">
 
-    <!-- Misión / Visión -->
     <section class="about container">
         <div class="gallery-plate">
             <div class="plate-content">
                 <h2>Nuestra Misión</h2>
-                <p>
-                    Promover el acceso al arte a través de programas educativos y actividades
-                    que fomenten la apreciación artística en la comunidad global.
-                </p>
+                <p>Promover el acceso al arte a través de programas educativos y actividades que fomenten la apreciación artística en la comunidad global.</p>
             </div>
         </div>
-
         <div class="gallery-plate">
             <div class="plate-content">
                 <h2>Nuestra Visión</h2>
-                <p>
-                    Ser un referente cultural que inspire a nuevas generaciones y fortalezca
-                    el valor del arte como motor de identidad social.
-                </p>
+                <p>Ser un referente cultural que inspire a nuevas generaciones y fortalezca el valor del arte como motor de identidad social.</p>
             </div>
         </div>
     </section>
 
-    <!-- frase y clima-->
     <section class="container" style="margin-top: 40px;">
         <div class="gallery-plate" style="max-width: 800px; margin: 0 auto; border: 1px solid #d4af37;">
             <div class="plate-content" style="text-align: center;">
-                <h2 id="frase-texto">
-                    "Cargando inspiración..."
-                </h2>
+                <h2 id="frase-texto">"Cargando inspiración..."</h2>
                 <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
                     <p>
                         <i class="fa-solid fa-cloud-sun"></i> 
@@ -93,10 +77,8 @@
         </div>
     </section>
 
-  <!-- Galería -->
     <section id="proyectos" class="container">
         <h2 class="section-title">EXPERIENCIAS DESTACADAS</h2>
-
         <div class="gallery-grid">
             <article class="art-card">
                 <div class="frame">
@@ -105,7 +87,6 @@
                 </div>
                 <h3>Pintura Clásica</h3>
             </article>
-
             <article class="art-card">
                 <div class="frame">
                     <img src="https://i.pinimg.com/1200x/d6/05/8a/d6058aaf18506c8f40b41395c054c9b8.jpg" alt="Escultura">
@@ -113,7 +94,6 @@
                 </div>
                 <h3>Escultura</h3>
             </article>
-
             <article class="art-card">
                 <div class="frame">
                     <img src="https://i.pinimg.com/1200x/20/15/fd/2015fd55c15659df7fa0ff39c8f913cc.jpg" alt="Talleres">
@@ -121,7 +101,6 @@
                 </div>
                 <h3>Talleres de Arte</h3>
             </article>
-
             <article class="art-card">
                 <div class="frame">
                     <img src="https://i.pinimg.com/736x/2f/87/76/2f87769a6a415c8cf11e44f86d6723b7.jpg" alt="Joyería">
@@ -129,7 +108,6 @@
                 </div>
                 <h3>Historia de la Joyería</h3>
             </article>
-
             <article class="art-card">
                 <div class="frame">
                     <img src="https://i.pinimg.com/1200x/0b/bd/e1/0bbde19177188dfe7d82044b73cc22a1.jpg" alt="Arquitectura">
@@ -137,7 +115,6 @@
                 </div>
                 <h3>Arquitectura</h3>
             </article>
-
             <article class="art-card">
                 <div class="frame">
                     <img src="https://i.pinimg.com/736x/8b/3c/a5/8b3ca5551223e17410e962e3ab811823.jpg" alt="Galería internacional">
@@ -148,30 +125,20 @@
         </div>
     </section>
 
-    </section>
-
-        <!-- Reservación -->
     <section id="contacto" class="container booking-combined" style="margin-top: 80px; padding-bottom: 80px;">
-
         <div class="gallery-plate schedule-card">
             <div class="plate-content">
                 <i class="fa-regular fa-clock schedule-icon"></i>
                 <h2>Horarios de Galería</h2>
-
                 <div class="schedule-grid">
                     <div class="day-row"><span>Lunes a Viernes</span><span class="dots"></span><span>09:00 - 19:00</span></div>
                     <div class="day-row"><span>Sábados</span><span class="dots"></span><span>10:00 - 20:00</span></div>
                     <div class="day-row highlight"><span>Domingos</span><span class="dots"></span><span>11:00 - 16:00</span></div>
                 </div>
-
                 <p class="schedule-note">* Durante los días festivos el museo permanece cerrado.</p>
-
                 <div class="address-box">
                     <i class="fa-solid fa-location-dot"></i>
-                    <p>
-                        Calle de las Artes #196, Distrito Cultural<br>
-                        Ciudad de México, CP 06090
-                    </p>
+                    <p>Calle de las Artes #196, Distrito Cultural<br>Ciudad de México, CP 06090</p>
                 </div>
             </div>
         </div>
@@ -179,34 +146,31 @@
         <div class="gold-frame form-wrapper">
             <div class="inner-content">
                 <h2>Reservación de Boletos</h2>
-
                 <form id="reservationForm" class="ticket-form">
                     <div class="form-row">
-                        <input type="text" id="nombre" placeholder="Nombre" required>
-                        <input type="text" id="apellido" placeholder="Apellido" required>
+                        <input type="text" id="nombre_completo" placeholder="Nombre Completo" required>
+                        <input type="email" id="correo_electronico" placeholder="Correo" required>
                     </div>
-
-                    <div class="form-row">
-                        <input type="tel" id="telefono" placeholder="Teléfono" required>
-                        <input type="email" id="correo" placeholder="Correo" required>
-                    </div>
-
                     <div class="form-row">
                         <div class="input-group">
                             <label>Fecha</label>
                             <input type="date" id="fecha" required>
                         </div>
                         <div class="input-group">
-                            <label>Cantidad</label>
-                            <input type="number" id="cantidad" min="1" required>
+                            <label>Hora</label>
+                            <input type="time" id="hora" required>
                         </div>
                     </div>
-
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Cantidad de Personas</label>
+                            <input type="number" id="cantidad_personas" min="1" required>
+                        </div>
+                    </div>
                     <button type="submit" class="btn-gold">CONFIRMAR RESERVA</button>
                 </form>
             </div>
         </div>
-
     </section>
 </main>
 
@@ -214,27 +178,18 @@
     <p>&copy; 2026 Museo Cálico de Pintura y Escultura. Todos los derechos reservados.</p>
 </footer>
 
-<!-- script clima -->
 <script>
 async function actualizarInfoMuseo() {
     try {
         const response = await fetch('/api/museo/info');
         const data = await response.json();
-
         document.getElementById('frase-texto').textContent = `"${data.frase}"`;
-        document.getElementById('clima-texto').textContent =
-            `${data.temperatura} — ${data.recomendacion}`;
-
+        document.getElementById('clima-texto').textContent = `${data.temperatura} — ${data.recomendacion}`;
     } catch (error) {
-        console.error("Error al cargar datos:", error);
-
-        document.getElementById('frase-texto').textContent =
-            '"El arte es la expresión del alma."';
-        document.getElementById('clima-texto').textContent =
-            "22°C — Disfruta de nuestras salas climatizadas.";
+        document.getElementById('frase-texto').textContent = '"El arte es la expresión del alma."';
+        document.getElementById('clima-texto').textContent = "22°C — Disfruta de nuestras salas climatizadas.";
     }
 }
-
 document.addEventListener('DOMContentLoaded', actualizarInfoMuseo);
 </script>
 
@@ -244,29 +199,43 @@ function cerrarSesion() {
     window.location.href = 'auth.html';
 }
 </script>
+
 <script>
 document.getElementById('reservationForm').onsubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('/api/reservas', {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
-        },
-        body: JSON.stringify({
-            nombre: document.getElementById('nombre').value,
-            apellido: document.getElementById('apellido').value,
-            telefono: document.getElementById('telefono').value,
-            correo: document.getElementById('correo').value,
-            fecha: document.getElementById('fecha').value,
-            cantidad: document.getElementById('cantidad').value
-        })
-    });
-    if (res.ok) alert('Reserva exitosa');
-    else alert('Error al reservar');
+    
+    const reservaPayload = {
+        nombre: document.getElementById('nombre_completo').value,
+        email: document.getElementById('correo_electronico').value,
+        fecha: document.getElementById('fecha').value,
+        hora: document.getElementById('hora').value,
+        personas: parseInt(document.getElementById('cantidad_personas').value)
+    };
+
+    try {
+        const res = await fetch('/api/reservas', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            },
+            body: JSON.stringify(reservaPayload)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            alert('¡Reserva exitosa!');
+            document.getElementById('reservationForm').reset();
+        } else {
+            // Muestra el mensaje exacto que devuelve tu validador
+            alert('Error: ' + data.mensaje);
+        }
+    } catch (err) {
+        alert('No se pudo conectar con el servidor.');
+    }
 };
 </script>
 
 </body>
 </html>
-
