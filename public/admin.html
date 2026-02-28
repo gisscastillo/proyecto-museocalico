@@ -166,6 +166,8 @@
     <script>
         const TOKEN = localStorage.getItem('token');
         const ROLE = localStorage.getItem('role');
+        console.log("TOKEN ADMIN:", TOKEN);
+        console.log("ROLE ADMIN:", ROLE);
 
         if (!TOKEN || ROLE !== 'admin') {
             window.location.href = 'auth.html';
