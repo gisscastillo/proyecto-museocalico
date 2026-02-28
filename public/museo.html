@@ -93,15 +93,14 @@
         </div>
     </section>
 
-    <!-- Galería -->
+  <!-- Galería -->
     <section id="proyectos" class="container">
         <h2 class="section-title">EXPERIENCIAS DESTACADAS</h2>
 
         <div class="gallery-grid">
-           
             <article class="art-card">
                 <div class="frame">
-                    <img src="https://i.pinimg.com/736x/f2/50/28/f250284e97797a2710edc9252a377a9a.jpg">
+                    <img src="https://i.pinimg.com/736x/f2/50/28/f250284e97797a2710edc9252a377a9a.jpg" alt="Pintura clásica">
                     <div class="overlay"><p>Colección de maestros del Renacimiento.</p></div>
                 </div>
                 <h3>Pintura Clásica</h3>
@@ -109,7 +108,7 @@
 
             <article class="art-card">
                 <div class="frame">
-                    <img src="https://i.pinimg.com/1200x/d6/05/8a/d6058aaf18506c8f40b41395c054c9b8.jpg">
+                    <img src="https://i.pinimg.com/1200x/d6/05/8a/d6058aaf18506c8f40b41395c054c9b8.jpg" alt="Escultura">
                     <div class="overlay"><p>Exploración de formas contemporáneas.</p></div>
                 </div>
                 <h3>Escultura</h3>
@@ -117,12 +116,38 @@
 
             <article class="art-card">
                 <div class="frame">
-                    <img src="https://i.pinimg.com/1200x/20/15/fd/2015fd55c15659df7fa0ff39c8f913cc.jpg">
+                    <img src="https://i.pinimg.com/1200x/20/15/fd/2015fd55c15659df7fa0ff39c8f913cc.jpg" alt="Talleres">
                     <div class="overlay"><p>Cursos prácticos de óleo y acuarela.</p></div>
                 </div>
                 <h3>Talleres de Arte</h3>
             </article>
+
+            <article class="art-card">
+                <div class="frame">
+                    <img src="https://i.pinimg.com/736x/2f/87/76/2f87769a6a415c8cf11e44f86d6723b7.jpg" alt="Joyería">
+                    <div class="overlay"><p>Piezas históricas de orfebrería.</p></div>
+                </div>
+                <h3>Historia de la Joyería</h3>
+            </article>
+
+            <article class="art-card">
+                <div class="frame">
+                    <img src="https://i.pinimg.com/1200x/0b/bd/e1/0bbde19177188dfe7d82044b73cc22a1.jpg" alt="Arquitectura">
+                    <div class="overlay"><p>Recorrido por el diseño del edificio.</p></div>
+                </div>
+                <h3>Arquitectura</h3>
+            </article>
+
+            <article class="art-card">
+                <div class="frame">
+                    <img src="https://i.pinimg.com/736x/8b/3c/a5/8b3ca5551223e17410e962e3ab811823.jpg" alt="Galería internacional">
+                    <div class="overlay"><p>Obras de artistas de todo el mundo.</p></div>
+                </div>
+                <h3>Galería Global</h3>
+            </article>
         </div>
+    </section>
+
     </section>
 
         <!-- Reservación -->
@@ -218,6 +243,28 @@ function cerrarSesion() {
     localStorage.removeItem('token');
     window.location.href = 'auth.html';
 }
+</script>
+<script>
+document.getElementById('reservationForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch('/api/reservas', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        },
+        body: JSON.stringify({
+            nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
+            telefono: document.getElementById('telefono').value,
+            correo: document.getElementById('correo').value,
+            fecha: document.getElementById('fecha').value,
+            cantidad: document.getElementById('cantidad').value
+        })
+    });
+    if (res.ok) alert('Reserva exitosa');
+    else alert('Error al reservar');
+};
 </script>
 
 </body>
