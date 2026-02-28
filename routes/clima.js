@@ -2,16 +2,25 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-// Ruta para obtener el clima del museo
-router.get('/estado', async (req, res) => {
+// Ruta que YA usa tu frontend
+router.get('/info', async (req, res) => {
+    const frases = [
+        "El arte es la mentira que nos permite comprender la verdad.",
+        "Cada cuadro es un viaje a un mundo desconocido.",
+        "El museo es el lugar donde el tiempo se detiene.",
+        "La belleza salvará al mundo."
+    ];
+
+    const fraseAzar = frases[Math.floor(Math.random() * frases.length)];
+
     try {
-        const ciudad = "Ciudad de Mexico"; 
-        const apiKey = "9b5c6b67e20d605d559fdc6fd9851f4d";
+        const ciudad = "Ciudad de Mexico";
+        const apiKey = "8016eec825cf546003aca50d32d90c67"; 
+
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
 
         const respuesta = await axios.get(url);
-        
-        // Datos reales de la API
+
         const temp = respuesta.data.main.temp;
         const climaDesc = respuesta.data.weather[0].description;
 
@@ -25,18 +34,18 @@ router.get('/estado', async (req, res) => {
         }
 
         res.json({
-            ubicacion: ciudad,
+            frase: fraseAzar,
             temperatura: `${temp}°C`,
-            condicion: climaDesc,
-            recomendacion_museo: sugerencia,
-            fuente: "OpenWeatherMap API"
+            recomendacion: sugerencia
         });
 
     } catch (err) {
         console.error("Error al conectar con API de Clima:", err.message);
-        res.status(500).json({ 
-            mensaje: "No se pudo obtener la información del clima",
-            error: err.message 
+
+        res.json({
+            frase: fraseAzar,
+            temperatura: "22°C",
+            recomendacion: "Visita el museo hoy mismo."
         });
     }
 });

@@ -10,37 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// clima y frase
-app.get('/api/museo/info', async (req, res) => {
-  const frases = [
-    "El arte es la mentira que nos permite comprender la verdad.",
-    "Cada cuadro es un viaje a un mundo desconocido.",
-    "El museo es el lugar donde el tiempo se detiene.",
-    "La belleza salvará al mundo."
-  ];
-  const fraseAzar = frases[Math.floor(Math.random() * frases.length)];
-
-  try {
-    //clima real con API
-    const response = await axios.get('https://api.openweathermap.org/data/2.5/weather?q=Mexico&units=metric&appid=TU_API_KEY');
-    res.json({ 
-      frase: fraseAzar,
-      temperatura: response.data.main.temp + "°C",
-      recomendacion: "Clima perfecto para visitar el museo." 
-    });
-  } catch (error) {
-    res.json({ 
-      frase: fraseAzar,
-      temperatura: "22°C", 
-      recomendacion: "Visita el museo hoy mismo." 
-    });
-  }
-});
-
 // Rutas de otros módulos
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/reservas', require('./routes/reservas'));
+app.use('/api/clima', require('./routes/clima'));
 
 // Rutas de diagnóstico
 app.get('/health', (req, res) => res.send('Servidor del museo funcionando'));
