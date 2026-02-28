@@ -14,7 +14,7 @@ router.get('/info', async (req, res) => {
     const fraseAzar = frases[Math.floor(Math.random() * frases.length)];
 
     try {
-        const ciudad = "Ciudad de Mexico";
+        const ciudad = "Mexico City";
         const apiKey = "8016eec825cf546003aca50d32d90c67"; 
 
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
@@ -40,14 +40,14 @@ router.get('/info', async (req, res) => {
         });
 
     } catch (err) {
-        console.error("Error al conectar con API de Clima:", err.message);
+    console.error("ERROR OPENWEATHER:", err.response?.data || err.message);
 
-        res.json({
-            frase: fraseAzar,
-            temperatura: "22°C",
-            recomendacion: "Visita el museo hoy mismo."
-        });
-    }
+    res.json({
+        frase: fraseAzar,
+        temperatura: "29°C",
+        recomendacion: "Visita el museo hoy mismo."
+    });
+}
 });
 
 module.exports = router;

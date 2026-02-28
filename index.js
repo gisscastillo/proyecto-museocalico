@@ -14,7 +14,7 @@ app.use(express.static('public'));
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/reservas', require('./routes/reservas'));
-app.use('/api/clima', require('./routes/clima'));
+app.use('/api/museo', require('./routes/clima'));
 
 // Rutas de diagnóstico
 app.get('/health', (req, res) => res.send('Servidor del museo funcionando'));
