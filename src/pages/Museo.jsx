@@ -8,35 +8,17 @@ function Museo() {
     }
   }, []);
 
-  useEffect(() => {
-    const actualizarInfoMuseo = async () => {
-      try {
-        const response = await fetch("https://proyecto-museocalico2.onrender.com/api/info-museo");
-        const data = await response.json();
+useEffect(() => {
+  const fraseEl = document.getElementById("frase-texto");
+  const climaEl = document.getElementById("clima-texto");
 
-        const fraseEl = document.getElementById("frase-texto");
-        const climaEl = document.getElementById("clima-texto");
+  if (fraseEl)
+    fraseEl.textContent = '"El arte es la expresión del alma."';
 
-        if (fraseEl)
-          fraseEl.textContent = `"${data.frase}"`;
-
-        if (climaEl)
-          climaEl.textContent = `${data.temperatura} — ${data.recomendacion}`;
-      } catch (error) {
-        const fraseEl = document.getElementById("frase-texto");
-        const climaEl = document.getElementById("clima-texto");
-
-        if (fraseEl)
-          fraseEl.textContent = '"El arte es la expresión del alma."';
-
-        if (climaEl)
-          climaEl.textContent =
-            "22°C — Disfruta de nuestras salas climatizadas.";
-      }
-    };
-
-    actualizarInfoMuseo();
-  }, []);
+  if (climaEl)
+    climaEl.textContent =
+      "22°C — Disfruta de nuestras salas climatizadas.";
+}, []);
 
   // cerrar sesión
   const cerrarSesion = (e) => {
