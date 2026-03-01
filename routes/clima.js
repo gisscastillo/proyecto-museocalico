@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-// Ruta que YA usa tu frontend
 router.get('/info', async (req, res) => {
     const frases = [
         "El arte es la mentira que nos permite comprender la verdad.",
@@ -15,22 +14,21 @@ router.get('/info', async (req, res) => {
 
     try {
         const ciudad = "Mexico City";
-        const apiKey = "8016eec825cf546003aca50d32d90c67"; 
+        const apiKey = process.env.OPENWEATHER_KEY || "demo";
 
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
 
         const respuesta = await axios.get(url);
 
         const temp = respuesta.data.main.temp;
-        const climaDesc = respuesta.data.weather[0].description;
 
         let sugerencia = "";
         if (temp > 25) {
-            sugerencia = "Día caluroso. Recomendamos visitar nuestras salas con aire acondicionado y la fuente principal.";
+            sugerencia = "Día caluroso. Recomendamos visitar nuestras salas con aire acondicionado.";
         } else if (temp < 15) {
-            sugerencia = "Día fresco. Ideal para disfrutar de un café caliente en la galería de arte moderno.";
+            sugerencia = "Día fresco. Ideal para disfrutar de un café caliente.";
         } else {
-            sugerencia = "Clima perfecto. No olvides visitar el jardín de esculturas al aire libre.";
+            sugerencia = "Clima perfecto para visitar el museo.";
         }
 
         res.json({
@@ -40,14 +38,14 @@ router.get('/info', async (req, res) => {
         });
 
     } catch (err) {
-    console.error("ERROR OPENWEATHER:", err.response?.data || err.message);
+        console.error("ERROR OPENWEATHER:", err.response?.data || err.message);
 
-    res.json({
-        frase: fraseAzar,
-        temperatura: "29°C",
-        recomendacion: "Visita el museo hoy mismo."
-    });
-}
+        res.json({
+            frase: fraseAzar,
+            temperatura: "22°C",
+            recomendacion: "Disfruta de nuestras salas climatizadas."
+        });
+    }
 });
 
 module.exports = router;

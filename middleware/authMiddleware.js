@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-    // 🔥 leer header estándar
+    
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
     }
 
     try {
+
         const token = authHeader.split(' ')[1];
 
         const verificado = jwt.verify(token, process.env.JWT_SECRET);
