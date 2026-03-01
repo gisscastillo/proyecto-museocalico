@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Admin.css";
+import { RESERVAS_ENDPOINTS } from "../config/api";
 
 function Admin() {
   const [reservas, setReservas] = useState([]);
@@ -16,7 +17,7 @@ function Admin() {
 
   const cargar = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/reservas", {
+      const res = await fetch("https://proyecto-museocalico2.onrender.com/api/reservas", {
         headers: { Authorization: `Bearer ${TOKEN}` },
       });
 
@@ -47,8 +48,7 @@ function Admin() {
     if (!confirm("¿Deseas eliminar esta reserva permanentemente?")) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/reservas/${id}`,
+      const res = await fetch(`https://proyecto-museocalico2.onrender.com/api/reservas/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${TOKEN}` },

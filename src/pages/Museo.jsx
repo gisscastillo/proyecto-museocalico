@@ -11,7 +11,7 @@ function Museo() {
   useEffect(() => {
     const actualizarInfoMuseo = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/museo/info");
+        const response = await fetch("https://proyecto-museocalico2.onrender.com/api/info-museo");
         const data = await response.json();
 
         const fraseEl = document.getElementById("frase-texto");
@@ -63,7 +63,7 @@ function Museo() {
       };
 
       try {
-        const res = await fetch("http://localhost:3000/api/reservas", {
+        const res = await fetch("https://proyecto-museocalico2.onrender.com/api/reservas", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
