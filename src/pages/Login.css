@@ -1,0 +1,94 @@
+.auth-container {
+  position: fixed;            
+  inset: 0;                   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(rgba(61, 65, 50, 0.7), rgba(61, 65, 50, 0.7)),
+    url("https://i.pinimg.com/1200x/51/a4/00/51a40056056eb3fab062dd7db1f67992.jpg")
+      center center / cover no-repeat;
+
+  padding: 24px;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff; 
+  border: 5px solid #c5a059;
+  padding: 42px 38px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  color: #2c241a; 
+}
+
+.toggle-btns {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #c5a059;
+}
+
+.toggle-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  color: #888;
+}
+
+.toggle-btn.active {
+  color: #a67c37;
+  font-weight: bold;
+  border-bottom: 3px solid #a67c37;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+
+  background: #ffffff;   
+  color: #2c241a;      
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+}
+.auth-box input::placeholder {
+  color: #9a9a9a;
+}
+.auth-box input:focus {
+  outline: none;
+  border-color: #c5a059;
+  box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.15);
+}
+.auth-box .btn-gold {
+  width: 100%;
+  padding: 13px;
+  background: #c5a059;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.25s ease;
+}
+
+.auth-box .btn-gold:hover {
+  background: #a67c37;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.auth-box,
+.auth-box * {
+  color: #2c241a;
+}

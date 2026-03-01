@@ -1,0 +1,256 @@
+:root {
+  --cafe-moka: #3d2b1f;
+  --oro: #b89655;
+  --beige-suave: #e5ddd3;
+  --crema: #fdfaf5;
+  --asistio: #2d4f35;
+  --no-asistio: #7a2a2a;
+  --pendiente: #5d4037;
+}
+
+/* base */
+body {
+  background-color: var(--beige-suave);
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  color: #2a1b0a;
+  padding-top: 100px;
+}
+
+.nav-admin {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--cafe-moka);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 3px solid var(--oro);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  color: var(--oro);
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-nav {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1.5px solid var(--oro);
+  background: transparent;
+  color: var(--oro);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.btn-nav:hover {
+  background: var(--oro);
+  color: white;
+}
+
+/* header */
+.header-admin {
+  text-align: center;
+  margin: 20px auto 10px;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+.header-admin h1 {
+  font-size: clamp(2.2rem, 3.5vw, 2.8rem);
+}
+/*contador */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 1100px;
+}
+
+.plate-info {
+  background: white;
+  padding: 20px 40px;
+  border-radius: 15px;
+  border: 2px solid var(--oro);
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.plate-info span {
+  color: #888;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.plate-info h2 {
+  margin: 5px 0 0;
+  font-size: 2.5rem;
+  color: var(--cafe-moka);
+}
+
+/*buscador*/
+.search-wrap {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+
+.search-wrap i {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  color: var(--oro);
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border-radius: 30px;
+  border: 1px solid var(--oro);
+  font-family: inherit;
+  font-size: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  outline: none;
+  background: var(--crema); 
+  color: #2a1b0a;
+}
+
+/*tabla de reservas*/
+.main-wrapper {
+  width: 100%;
+  margin: 0 auto 60px;
+  padding: 0;
+}
+
+.table-dark-bg {
+  background: var(--cafe-moka);
+  padding: 32px;
+  border-radius: 25px;
+  box-shadow: 0 18px 35px rgba(0,0,0,0.25); 
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  text-align: left;
+  font-size: 1.05rem; 
+}
+
+th {
+  border-bottom: 1px solid #555;
+  padding: 15px;
+  color: var(--oro);
+  font-family: 'Cinzel', serif;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #444;
+}
+
+.btn-del {
+  background: #7a2a2a;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-del:hover {
+  background: #ff4d4d;
+}
+.admin-page {
+  max-width: 1400px;
+  margin: 40px auto 40px;   
+  padding: 0 24px;
+  width: 100%;
+}
+.admin-page {
+  padding-top: 100px;
+}
+.admin-page-inner {
+  max-width: 1600px; 
+  margin: 0 auto;
+  width: 100%;
+}
+.hero {
+    margin-top: 0 !important;
+}
+
+body {
+    padding-top: 0 !important;
+}
+
+.admin-page {
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+.main-wrapper {
+  margin-top: 20px;
+}
+
+body {
+  background-color: var(--beige-suave);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+.admin-page {
+  min-height: calc(100vh - 90px); 
+  display: flex;
+  flex-direction: column;
+}
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .btn-nav span {
+    display: none;
+  }
+}
+
+.admin-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-dark-bg {
+  margin-bottom: 0;
+}
+
+body {
+  background-color: var(--beige-suave);
+}
