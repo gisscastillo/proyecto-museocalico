@@ -228,7 +228,6 @@ document.getElementById('reservationForm').onsubmit = async (e) => {
             alert('¡Reserva exitosa!');
             document.getElementById('reservationForm').reset();
         } else {
-            // Muestra el mensaje exacto que devuelve tu validador
             alert('Error: ' + data.mensaje);
         }
     } catch (err) {

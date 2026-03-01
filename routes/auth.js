@@ -88,7 +88,7 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (err) {
-        console.error("Error en login:", err.message);
+        console.error("Error en login COMPLETO:", err);
         res.status(500).json({ mensaje: "Error de servidor" });
     }
 });
